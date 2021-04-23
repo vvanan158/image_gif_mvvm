@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    android:padding="@dimen/dp_10"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/appCompatTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/trending"
-        android:textSize="@dimen/sp_20"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <variable
+            name="trendingAdapter"
+            type="com.example.gif_mvvm.screen.TrendingAdapter" />
+
+        <variable
+            name="viewModel"
+            type="com.example.gif_mvvm.screen.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView">
+        android:padding="@dimen/dp_5">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/appCompatTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/trending"
+            android:textSize="@dimen/sp_20"
+            android:textStyle="bold"
+            app:layout_constraintHeight_percent="0.04"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/trendingRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dp_5"
+            app:data="@{viewModel.gifs}"
+            app:isLoad="@{viewModel.isLoad}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintHeight_percent="0.954"
+            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView"
+            app:onLoadMore="@{viewModel::onLoadData}"
+            app:setAdapter="@{trendingAdapter}"
             app:spanCount="2"
             tools:listitem="@layout/item_layout_gif" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
